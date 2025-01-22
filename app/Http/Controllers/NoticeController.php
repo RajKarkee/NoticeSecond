@@ -65,12 +65,12 @@ class NoticeController extends Controller
     }
 
     function renderNotice(){
-        $notices = Notice::where('Status',1)->get(['title','desc']);
-        $path = config('data_path').'/notice.php';       
+        $notices = Notice::where('Status',1)->get(['title','desc','domain']);
+        $path = config('app.data_folder',base_path()).'/notice.php';       
         
         $data = "<?php\n\nreturn [\n";
         foreach($notices as $notice){
-            $data .= "\t['title' => '".$notice->title."', 'desc' => '".$notice->desc."'],\n";
+            $data .= "\t['title' => '".$notice->title."', 'desc' => '".$notice->desc."', 'domain' => '".$notice->domain."'],\n";
         }
         $data .= "];";
         file_put_contents($path, $data);
