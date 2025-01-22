@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NoticeController;
+use App\Http\Controllers\LogoutController;
 use App\Http\Middleware\Valid;
 use Illuminate\Support\Facades\Route;
 
@@ -17,5 +18,6 @@ use Illuminate\Support\Facades\Route;
         Route::delete('delete/{id}', [NoticeController::class, 'delete'])->name('delete');
         Route::get('edit/{id}', [NoticeController::class, 'edit'])->name('edit');
         Route::put('update/{id}', [NoticeController::class, 'update'])->name('update');
+        Route::post('logout',[LogoutController::class,'logout'])->name('logout');
 
     });

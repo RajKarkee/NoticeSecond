@@ -1,16 +1,12 @@
 @extends('layout.layout')
 
  @section('content')
-
-<p>This is notice</p>
-
-<div class="container mt-5">
-    <h1 class="mb-4">Notices List</h1>
-
-    <a href="{{route('notice.add')}}" class="btn btn-primary" >Add</a>
-    <br>
-    <hr>
-    <table class="table table-bordered">
+<div class="container mt-2">
+    <h2 class="mb-4">Notices List</h2>
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{{ route('notice.add') }}" class="btn btn-primary">Add</a>
+    </div>
+    <table id="noticesTable" class="table table-bordered">
         <thead>
             <tr>
                 <th>ID</th>
@@ -31,7 +27,13 @@
                     <td>{{$notice->title}}</td>
                     <td>{{$notice->desc}}</td>
                     <td>{{$notice->domain}}</td>
-                    <td>{{$notice->Status}}</td>
+                    <td>
+                        @if ($notice->Status == 1)
+                            <p>Active</p>
+                        @else
+                            <p>InActive</p>
+                        @endif
+                    </td>
                     <td>
 
                         <a href="{{route('notice.edit',$notice->id)}}"" class="btn btn-warning btn-sm">Edit</a>
@@ -46,6 +48,21 @@
                 @endforeach
         </tbody>
     </table>
+
+    <script>
+        $(document).ready(function () {
+            $('#noticesTable').DataTable({
+                paging: true,      // Enables pagination
+                searching: true,   // Enables search functionality
+                ordering: true,    // Enables sorting
+                lengthChange: true, // Enables changing page length
+                pageLength: 10,    // Sets default number of entries per page
+                columnDefs: [
+                    { orderable: false, targets: [0,5] } // Disables sorting for the "Action" column
+                ],
+            });
+        });
+    </script>
 
 
 

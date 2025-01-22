@@ -39,9 +39,21 @@ class NoticeController extends Controller
 
     public function update(Request $request,$id){
         $notice=Notice::findOrFail($id);
+        if ($request->has('Status')) {
+
+                if($notice->Status == 1) {
+                $notice->Status = 0;
+            } else {
+                $notice->Status = 1;
+            }
+            $notice->save();
+
+            return redirect()->route('notice.index')->with('success', 'Status updated successfully!');
+        }
         $notice->title = $request->title;
         $notice->desc = $request->desc;
         $notice->domain = $request->domain;
+
         $notice->save();
         return redirect()->route('notice.index')->with('success','Task update successfully');
 
