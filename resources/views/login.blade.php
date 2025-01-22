@@ -94,7 +94,7 @@
     <div class="login-container">
 
         <h2>Login</h2>
-        <form action="{{route('Log')}}" method="post">
+        <form action="{{route('login')}}" method="post">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
