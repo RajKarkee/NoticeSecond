@@ -23,6 +23,8 @@ class NoticeController extends Controller
         $notice->desc = $request->desc;
         $notice->domain = $request->domain;
         $notice->save();
+        $this->renderNotice();
+
         return redirect()->route("notice.index")->with("success","Task created successfully");
 
     }
@@ -30,6 +32,8 @@ class NoticeController extends Controller
     public function delete($id){
         $notice = Notice::findOrFail($id);
         $notice->delete();
+        $this->renderNotice();
+
         return redirect()->route('notice.index')->with('success', 'Task deleted successfully.');
     }
     public function edit($id){
@@ -55,7 +59,20 @@ class NoticeController extends Controller
         $notice->domain = $request->domain;
 
         $notice->save();
+        $this->renderNotice();
         return redirect()->route('notice.index')->with('success','Task update successfully');
 
+    }
+
+    function renderNotice(){
+        $notices = Notice::where('Status',1)->get(['title','desc']);
+        $path = config('data_path').'/notice.php';       
+        
+        $data = "<?php\n\nreturn [\n";
+        foreach($notices as $notice){
+            $data .= "\t['title' => '".$notice->title."', 'desc' => '".$notice->desc."'],\n";
+        }
+        $data .= "];";
+        file_put_contents($path, $data);
     }
 }
