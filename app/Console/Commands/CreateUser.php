@@ -33,7 +33,7 @@ class CreateUser extends Command
     {
         $name =$this->ask('Enter name');
         $email =$this->ask('Enter email');
-        $password =$this->secret('Enter password');
+        $password =$this->ask('Enter password');
         $user = User::create([
             'name'=> $name,
             'email'=> $email,
